@@ -1,4 +1,6 @@
 # Face Detection using Haar Cascades with OpenCV and Matplotlib
+# Name : SARAVANAN SHAM PRAKASH
+# Reg no : 212224230254
 
 ## Aim
 
@@ -54,75 +56,87 @@ iv) Perform face detection with label in real-time video from webcam.
 - Step 5: Exit loop and close windows when ESC key (key code 27) is pressed  
 - Step 6: Release video capture and destroy all OpenCV windows  
 
-### PROGRAM:
-## NAME: GOKUL PRAKASH M
-## REG NO: 212223240041
+## Program :
 ```
-import cv2
+import numpy as np
+import cv2 
 import matplotlib.pyplot as plt
 %matplotlib inline
-
-withglass = cv2.imread('image_02.png', 0)
-group = cv2.imread('img_3.jpg', 0)
-
-plt.imshow(withglass, cmap='gray')
-plt.title("With Glasses")
+withglass = cv2.imread('image_02.png',0)
+group = cv2.imread('image_03.jpeg',0)
+plt.imshow(withglass,cmap='gray')
 plt.show()
-
-plt.imshow(group, cmap='gray')
-plt.title("Group Image")
+plt.imshow(group,cmap='gray')
 plt.show()
-
-face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-
-if face_cascade.empty():
-    raise IOError("Error loading face cascade XML file")
-if eye_cascade.empty():
-    raise IOError("Error loading eye cascade XML file")
-
-def detect_face(img, scaleFactor=1.1, minNeighbors=5):
+face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+def detect_face(img):
     face_img = img.copy()
-    face_rects = face_cascade.detectMultiScale(face_img, scaleFactor=scaleFactor, minNeighbors=minNeighbors)
-    for (x, y, w, h) in face_rects:
-        cv2.rectangle(face_img, (x, y), (x + w, y + h), (255, 255, 255), 2)
+    face_rects = face_cascade.detectMultiScale(face_img) 
+    
+    for (x,y,w,h) in face_rects: 
+        cv2.rectangle(face_img, (x,y), (x+w,y+h), (255,255,255), 2) 
+        
     return face_img
 
+result = detect_face(withglass)
+plt.imshow(result,cmap='gray')
+plt.show()
+result = detect_face(group)
+plt.imshow(result,cmap='gray')
+plt.show()
+
+def adj_detect_face(img):
+    
+    face_img = img.copy()
+  
+    face_rects = face_cascade.detectMultiScale(face_img,scaleFactor=1.2, minNeighbors=5) 
+    
+    for (x,y,w,h) in face_rects: 
+        cv2.rectangle(face_img, (x,y), (x+w,y+h), (255,255,255), 2) 
+        
+    return face_img
+result = adj_detect_face(group)
+plt.imshow(result,cmap='gray')
+plt.show()
+
+eye_cascade = cv2.CascadeClassifier('haarcascade_eye.xml')
 def detect_eyes(img):
+    
     face_img = img.copy()
-    eyes = eye_cascade.detectMultiScale(face_img)
-    for (x, y, w, h) in eyes:
-        cv2.rectangle(face_img, (x, y), (x + w, y + h), (255, 255, 255), 2)
+  
+    eyes = eye_cascade.detectMultiScale(face_img) 
+    
+    
+    for (x,y,w,h) in eyes: 
+        cv2.rectangle(face_img, (x,y), (x+w,y+h), (255,255,255), 2) 
+        
     return face_img
-
-result_withglass_faces = detect_face(withglass)
-plt.imshow(result_withglass_faces, cmap='gray')
-plt.title("Faces in With Glasses Image")
+result = detect_eyes(model)
+plt.imshow(result,cmap='gray')
 plt.show()
-
-result_group_faces = detect_face(group)
-plt.imshow(result_group_faces, cmap='gray')
-plt.title("Faces in Group Image")
+eyes = eye_cascade.detectMultiScale(withglass)
+result = detect_eyes(withglass)
+plt.imshow(result,cmap='gray')
 plt.show()
-
-result_withglass_eyes = detect_eyes(withglass)
-plt.imshow(result_withglass_eyes, cmap='gray')
-plt.title("Eyes in With Glasses Image")
-plt.show()
-
-result_group_eyes = detect_eyes(group)
-plt.imshow(result_group_eyes, cmap='gray')
-plt.title("Eyes in Group Image")
-plt.show()
-
 ```
-### OUTPUT :
-<img width="581" height="443" alt="image" src="https://github.com/user-attachments/assets/f1b4753d-1bd6-4bed-b186-f96d91229f47" />
-<img width="690" height="402" alt="image" src="https://github.com/user-attachments/assets/3862af7d-288d-4dd3-a7ba-12df4f11cc7a" />
-<img width="588" height="453" alt="image" src="https://github.com/user-attachments/assets/660fa323-30b7-4008-81dc-63b11b983fd5" />
-<img width="787" height="431" alt="image" src="https://github.com/user-attachments/assets/7497983e-54bc-4cf1-9416-13668b7aae4d" />
-<img width="579" height="436" alt="image" src="https://github.com/user-attachments/assets/e67b88ea-ac7b-4b92-a27b-d4ab37220635" />
-<img width="653" height="396" alt="image" src="https://github.com/user-attachments/assets/c76791c8-b911-45dd-ab02-1c2466908835" />
 
-### RESULT:
-Thus the program to implement Face Detection using Haar Cascades was executed successfully.
+## Output :
+
+### INPUT IMAGES :
+
+![dipp img (1)](https://github.com/user-attachments/assets/e897c257-1bfc-43f3-a26e-c1277ef51ae3)
+
+
+### FACE DETECTION :
+
+<img width="621" height="809" alt="image" src="https://github.com/user-attachments/assets/66a87f46-7c54-498e-818c-377a9940c8c8" />
+
+
+### EYE DETECTION :
+
+<img width="621" height="809" alt="image" src="https://github.com/user-attachments/assets/b139e96f-d31c-4264-becc-ba809b4be4a6" />
+
+
+## Result :
+
+Thus, to write a Python program using OpenCV to perform image manipulations for the given objectives is executed sucessfully.
